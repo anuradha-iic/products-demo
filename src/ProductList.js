@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import './grid.css'
-import { Link } from 'react-router-dom'
+import { BrowserRouter, Link } from "react-router-dom";
 import { Button, Modal, Container, Row, Col } from 'react-bootstrap'
 
 class ProductList extends Component {
@@ -17,6 +17,7 @@ class ProductList extends Component {
             selectedProduct: {}
         }
         console.log(props)
+        this.addProduct = this.addProduct.bind(this)
     }
 
     handleShow(productId) {
@@ -38,7 +39,7 @@ class ProductList extends Component {
 
     componentDidMount() {
         //https://jsonplaceholder.typicode.com/users
-        fetch("https://dummyjson.com/products")
+        fetch("https://dummyjson.com/products?limit=2&skip=2")
             .then((res) => res.json())
             .then((json) => {
                 this.setState({
@@ -48,8 +49,18 @@ class ProductList extends Component {
             })
     }
 
+    addProduct() {
+        console.log("add" + this.props)
+        // // const history = useHistory()
+        // //navigate("./components/AddProduct")
+        // ('/AddProduct')
+        // this.props.history.push("AddProduct")
+
+        // this.props.history.push(path)
+    }
+
     render() {
-        //console.log(this.state.items.products) undefined
+        //console.log(this.state.items.products) 
         const { DataisLoaded, items } = this.state;
         //console.log(items)
         //console.log(items.products);
@@ -59,13 +70,17 @@ class ProductList extends Component {
 
         return (
             <main>
-                <div class="container">
+                <div className="container">
                     <div class="alert alert-primary alert-dismissible fade show" role="alert">
                         Product List
                     </div>
                     <div class="badge bg-primary">
                         Showing {items.length} Products
-                    </div>
+                    </div>&nbsp;
+
+                    {/* <Button class="bg-primary" onClick={() => this.addProduct()}>Add Product</Button> */}
+
+                    <Link to={{ pathname: '/add' }} className="btn btn-primary">Add Product</Link>
 
                     <table class="table table-striped">
                         <thead>
