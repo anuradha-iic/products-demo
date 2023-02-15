@@ -1,23 +1,21 @@
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import './grid.css'
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Modal, Container, Row, Col } from 'react-bootstrap'
 
 class ProductList extends Component {
 
     constructor(props) {
         super(props)
-        console.log(props)
-        //const [products, setProducts] = useState([])
         this.state = {
             items: [],
             DataisLoaded: false,
             show: false,
             selectedProduct: {}
         }
-        console.log(props)
-        this.addProduct = this.addProduct.bind(this)
+
+
     }
 
     handleShow(productId) {
@@ -39,7 +37,7 @@ class ProductList extends Component {
 
     componentDidMount() {
         //https://jsonplaceholder.typicode.com/users
-        fetch("https://dummyjson.com/products?limit=2&skip=2")
+        fetch("https://dummyjson.com/products")
             .then((res) => res.json())
             .then((json) => {
                 this.setState({
@@ -49,22 +47,10 @@ class ProductList extends Component {
             })
     }
 
-    addProduct() {
-        console.log("add" + this.props)
-        // // const history = useHistory()
-        // //navigate("./components/AddProduct")
-        // ('/AddProduct')
-        // this.props.history.push("AddProduct")
-
-        // this.props.history.push(path)
-    }
-
     render() {
-        //console.log(this.state.items.products) 
+
         const { DataisLoaded, items } = this.state;
-        //console.log(items)
-        //console.log(items.products);
-        console.log(DataisLoaded)
+        //console.log(items);
         if (!DataisLoaded)
             return <div><h1> Pleses wait some time.... </h1></div>;
 
@@ -164,7 +150,13 @@ class ProductList extends Component {
                                     <Col></Col>
                                 </Row>
                                 <Row>
-                                    <Col><img src={this.state.selectedProduct.images} alt={this.state.selectedProduct.title} /></Col>
+                                    <Col>
+                                        {this.state.selectedProduct.images && this.state.selectedProduct.images.map((imgItem) => (
+                                            <><img src={imgItem} title={this.state.selectedProduct.title} alt={this.state.selectedProduct.title} />
+                                                <hr /></>
+                                        ))}
+
+                                    </Col>
                                 </Row>
                             </Container>
 
