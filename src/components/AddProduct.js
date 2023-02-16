@@ -14,7 +14,7 @@ class AddProduct extends Component {
 
         this.getProductCategories = this.getProductCategories.bind(this)
         this.handleChange = this.handleChange.bind(this)
-        this.addProduct = this.addProduct.bind(this)
+
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onFileChange = this.onFileChange.bind(this)
     }
@@ -76,11 +76,7 @@ class AddProduct extends Component {
             });
     }
 
-    addProduct() {
-        console.log("add here")
-        console.warn(this.state.brand)
-        //console.warn(title, description)
-    }
+
 
     // get product categories
     getProductCategories() {

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import './grid.css'
 import { Link } from "react-router-dom";
-import { Button, Modal, Container, Row, Col } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import ViewProduct from "./components/ViewProduct";
+
 
 class ProductList extends Component {
 
@@ -11,16 +13,20 @@ class ProductList extends Component {
         this.state = {
             items: [],
             DataisLoaded: false,
-            show: false,
+            showModal: false,
             selectedProduct: {}
         }
+    }
 
+    handleModal() {
+        console.log("list here")
 
+        this.setState({ showModal: !this.state.showModal })
     }
 
     handleShow(productId) {
         console.log(productId)
-        this.setState({ show: true })
+        this.setState({ showModal: true })
         fetch('https://dummyjson.com/products/' + productId)
             .then(res => res.json())
             .then((result) => {
@@ -29,10 +35,6 @@ class ProductList extends Component {
                     DataisLoaded: true
                 })
             });
-    }
-
-    handleModal() {
-        this.setState({ show: !this.state.show })
     }
 
     componentDidMount() {
@@ -45,6 +47,22 @@ class ProductList extends Component {
                     DataisLoaded: true
                 })
             })
+    }
+
+    deleteProduct(productId) {
+        console.log("delete---" + productId)
+
+        if (window.confirm("Are you sure you want to delete this product?")) {
+
+            fetch('https://dummyjson.com/products/' + productId, {
+                method: 'DELETE',
+            })
+                .then(res => res.json())
+                .then((result) => {
+                    if (result.isDeleted)
+                        window.location.href = "/"
+                });
+        }
     }
 
     render() {
@@ -61,7 +79,7 @@ class ProductList extends Component {
                         Product List
                     </div>
                     <div class="badge bg-primary">
-                        Showing {items.length} Products
+                        Showing {items && items.length} Products
                     </div>&nbsp;
 
                     {/* <Button class="bg-primary" onClick={() => this.addProduct()}>Add Product</Button> */}
@@ -101,73 +119,20 @@ class ProductList extends Component {
                                             View
                                         </button> */}
                                         <Button onClick={() => { this.handleShow(`${listValue.id}`) }} >View</Button>
+                                        &nbsp;&nbsp;
+                                        <Link to={{ pathname: /edit/ + `${listValue.id}` }} className="btn btn-primary">Edit</Link>
+                                        &nbsp;&nbsp;
+                                        <Button onClick={() => this.deleteProduct(`${listValue.id}`)}
+                                            className="btn btn-primary" >Delete</Button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                <div>
-                    <Modal show={this.state.show} onHide={() => { this.handleModal() }} size="lg">
-                        <Modal.Header closeButton>
-                            <Modal.Title>View Product</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Container>
-                                <Row>
-                                    <Col>Title</Col>
-                                    <Col>{this.state.selectedProduct.title}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Brand</Col>
-                                    <Col>{this.state.selectedProduct.brand}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Category</Col>
-                                    <Col>{this.state.selectedProduct.category}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Price</Col>
-                                    <Col>{this.state.selectedProduct.price}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Rating</Col>
-                                    <Col>{this.state.selectedProduct.rating}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Stock</Col>
-                                    <Col>{this.state.selectedProduct.stock}</Col>
-                                </Row>
-                                <Row>
-                                    <Col>Thumbnail</Col>
-                                    <Col></Col>
-                                </Row>
-                                <Row><Col>
-                                    <img src={this.state.selectedProduct.thumbnail} alt={this.state.selectedProduct.title} />
-                                </Col></Row>
-                                <Row>
-                                    <Col>Images</Col>
-                                    <Col></Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {this.state.selectedProduct.images && this.state.selectedProduct.images.map((imgItem) => (
-                                            <><img src={imgItem} title={this.state.selectedProduct.title} alt={this.state.selectedProduct.title} />
-                                                <hr /></>
-                                        ))}
 
-                                    </Col>
-                                </Row>
-                            </Container>
-
-
-
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={() => { this.handleModal() }}>Close</Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
+                <ViewProduct selectedProduct={this.state.selectedProduct}
+                    handleModal={this.handleModal} showModal={this.state.showModal} />
             </main >
         )
     }

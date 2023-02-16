@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import ProductList from './ProductList';
 import AddProduct from './components/AddProduct';
+import UpdateProduct from './components/UpdateProduct'
 import UploadFile from './components/UploadFile'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<ProductList />} />
           <Route path='/list' element={<ProductList />} />
           <Route path="/add" element={<AddProduct />} />
+          <Route path='/edit/:id' element={<UpdateProduct />} />
           <Route path='/upload' element={<UploadFile />} />
         </Routes>
       </BrowserRouter>
