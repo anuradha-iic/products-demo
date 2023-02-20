@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 class ViewProduct extends Component {
     constructor(props) {
         super(props)
-        console.log(props.selectedProduct)
+        //console.log(props.selectedProduct)
         //const { showModal, handleModal, selectedProduct } = props;
         //console.log(selectedProduct + '---------' + showModal + '--' + handleModal)
         this.state = {
@@ -28,7 +28,7 @@ class ViewProduct extends Component {
 
     render() {
 
-        console.log(this.props)
+        //console.log(this.props)
         return (
 
             <Modal show={this.props.showModal} size="lg">

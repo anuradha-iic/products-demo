@@ -53,19 +53,23 @@ class AddProduct extends Component {
         // for (let [key, value] of formData.entries()) {
         //     console.log(key, value);
         // }
-        console.log(this.state.selectedFile + '----->' + this.state.selectedFile.name)
+        let jsonObj = {
+            title: this.state.title,
+            description: this.state.description,
+            price: this.state.price,
+            rating: this.state.rating,
+            stock: this.state.stock,
+            brand: this.state.brand,
+            category: this.state.category,
+
+        }
+        if (this.state.selectedFile)
+            jsonObj.thumbnail = this.state.selectedFile.name
+        //console.log(this.state.selectedFile + '----->' + this.state.selectedFile.name)
         fetch('https://dummyjson.com/products/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: this.state.title,
-                description: this.state.description,
-                price: this.state.price,
-                rating: this.state.rating,
-                stock: this.state.stock,
-                brand: this.state.brand,
-                category: this.state.category
-            })
+            body: JSON.stringify(jsonObj)
         })
             .then(res => res.json())
             .then((result) => {
