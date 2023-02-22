@@ -7,6 +7,7 @@ import ProductList from './ProductList';
 import AddProduct from './components/AddProduct';
 import UpdateProduct from './components/UpdateProduct'
 import UploadFile from './components/UploadFile'
+import Notes from './components/Notes'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/add" element={<AddProduct />} />
           <Route path='/edit/:id' element={<UpdateProduct />} />
           <Route path='/upload' element={<UploadFile />} />
+          <Route path='/notes' element={<Notes />} />
         </Routes>
       </BrowserRouter>
     </div>
